@@ -73,9 +73,17 @@ class EnemyPlane:
     def __init__(self, window):
         # 窗体对象
         self.window = window
-        self.reset1()
+        self.localtionInit()
 
-    def reset1(self):
+    def localtionInit(self):
+        self.locationX()
+        location_y = [-self.height, -self.height * 5, -self.height * 8]
+        global i
+        if i >= len(location_y):
+            i = 0
+        self.y = location_y[i]
+        i += 1
+    def locationX(self):
         # 图像
         self.img = pygame.image.load("img/monster.gif")
         # 宽和高
@@ -85,13 +93,7 @@ class EnemyPlane:
         left = WINDOW_WIDTH/4 - self.width / 2
         right = WINDOW_WIDTH/4 * 3 - self.width/2
         location_x = [left, right]
-        location_y = [-self.height, -self.height * 5, -self.height * 8]
         self.x = location_x[random.randint(0, len(location_x) - 1)]
-        global i
-        if i >= len(location_y):
-            i = 0
-        self.y = location_y[i]
-        i += 1
 
     def move(self):
         self.y += 15
@@ -100,7 +102,6 @@ class EnemyPlane:
             for enemie in enemies:
                 if enemie != self:
                     if ((self.y - WINDOW_HEIGHT) + self.height * 3) > enemie.y:
-                        #self.reset()
                         self.y = WINDOW_HEIGHT
                     else:
                         self.y = - self.height*2
@@ -112,18 +113,8 @@ class EnemyPlane:
         self.window.blit(self.img, (self.x, self.y))
 
     def reset(self):
-        # 图像
-        #self.img = pygame.image.load("img/img-plane_{}.png".format(random.randint(1, 7)))
-        self.img = pygame.image.load("img/monster.gif")
-        # 宽和高
-        self.width = self.img.get_width()
-        self.height = self.img.get_height()
-        # 位置
-        left = WINDOW_WIDTH/4 - self.width / 2
-        right = WINDOW_WIDTH/4 * 3 - self.width/2
-        location_x = [left, right]
-        location_y = [-self.height, -self.height * 5, -self.height*8]
-        self.x = location_x[random.randint(0, len(location_x)-1)]
+        self.locationX()
+
 
 
 
@@ -184,17 +175,10 @@ if __name__ == '__main__':
     # 设置窗体图标
     pygame.display.set_icon(pygame.image.load("img/monster.gif"))
 
-
-
     # 真实的FPS
     fps = 0
     # 积分
     score = 0
-
-    # 加载背景图片
-    #bg = pygame.image.load("img/img_bg_level_2.jpg")
-
-
 
     # 加载字体
     font = pygame.font.Font("font/happy.ttf", 24)
@@ -214,13 +198,12 @@ if __name__ == '__main__':
     for i in range(3):
         enemies.append(EnemyPlane(window))
 
-
     # 爆炸物
     bombs = []
 
     # 背景音
-    # pygame.mixer_music.load("snd/bg2.ogg")
-    # pygame.mixer_music.play(-1)
+    pygame.mixer_music.load("snd/bg2.ogg")
+    pygame.mixer_music.play(-1)
 
     # 游戏结束的标记
     is_over = False
@@ -244,7 +227,7 @@ if __name__ == '__main__':
         # 渲染文本 0x33, 0xCC, 0x33 (0xff, 0xff, 0xff)
         fps_text = font.render("FPS: %d" % fps, True, (0x33, 0xCC, 0x33))
         # 显示fps文本
-        window.blit(fps_text, (WINDOW_WIDTH-100, 10))
+        window.blit(fps_text, (WINDOW_WIDTH-105, 10))
         # 显示积分
         score_text = font.render("积分: %d" % score, True, (0x33, 0xCC, 0x33))
         # 显示积分文本
