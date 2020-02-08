@@ -141,13 +141,6 @@ class PlayerPlane:
         # 位置
         self.x = WINDOW_WIDTH/4 - self.width / 2
         self.y = WINDOW_HEIGHT - self.height - 150
-        # self._offset = 5
-        # 子弹的列表
-        self.bullets = []
-
-        # 子弹发射的时间
-        self.fire_time = 0
-        self.fire_delay = 0.2
 
     def display(self):
         # 飞机的显示
