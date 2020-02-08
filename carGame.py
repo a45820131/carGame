@@ -13,6 +13,8 @@ DEFAULT_FPS = 60
 DEFAULT_DELAY = 1.0 / DEFAULT_FPS - 0.002
 i = 0
 enemies = []
+# 积分
+score = 0
 
 def collide(r1, r2):
     """
@@ -99,6 +101,8 @@ class EnemyPlane:
         self.y += 15
         # 飞越界了
         if self.y > WINDOW_HEIGHT:
+            global score
+            score += 1
             for enemie in enemies:
                 if enemie != self:
                     if ((self.y - WINDOW_HEIGHT) + self.height * 3) > enemie.y:
@@ -177,8 +181,6 @@ if __name__ == '__main__':
 
     # 真实的FPS
     fps = 0
-    # 积分
-    score = 0
 
     # 加载字体
     font = pygame.font.Font("font/happy.ttf", 24)
@@ -287,7 +289,7 @@ if __name__ == '__main__':
                 if event.key == K_RETURN and is_over:
                     # 重置状态
                     for enemy in enemies:
-                        enemy.reset1()
+                        enemy.localtionInit()
                     score = 0
                     is_over = False
 
